@@ -18,3 +18,21 @@ class CanvasWithBorders(Canvas):
         self.fill_rect(0, 0, border_width, self.height)
         # Draw right border
         self.fill_rect(self.width - border_width, 0, border_width, self.height)
+
+    def draw_circle(self, pos, radius, fill_color=None, border_color=None):
+        if fill_color is not None:
+            self.fill_style = fill_color
+            self.fill_circle(
+                pos[0],
+                pos[1],
+                radius
+            )
+        if border_color is not None:
+            self.stroke_style = border_color
+            self.stroke_circle(
+                pos[0],
+                pos[1],
+                radius
+            )
+        
+        
