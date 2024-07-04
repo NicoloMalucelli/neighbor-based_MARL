@@ -59,3 +59,7 @@ def sac_result_format(result):
           f"episode_reward_mean: {result['sampler_results']['episode_reward_mean']}, " +
           f"episode_len_mean: {result['sampler_results']['episode_len_mean']}")
           
+def dqn_result_format(result):
+    return (f"iteration [{result['training_iteration']}] => " +
+        f"episode_reward_mean: {result['sampler_results']['episode_reward_mean']}, " +
+        f"episode_len_mean: {result['sampler_results']['episode_len_mean']}")
