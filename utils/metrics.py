@@ -34,3 +34,24 @@ def compare_metrics(metric_a, metric_b, key_a, key_b=None):
         ax2.plot(metric_a[key_b], linestyle='-', color='r', label=f"{key_b} algo A")
         ax2.plot(metric_b[key_b], linestyle='-', color='b', label=f"{key_b} algo B")
         ax2.legend([f"{key_b} algo A", f"{key_b} algo B"])
+
+def compare_metrics(metrics, key_a, key_b=None):
+    if key_b == None:
+        legend = []
+        for metric_name, dataset in metrics.items():
+            plt.plot(dataset[key_a], linestyle='-', label=f"{key_a} {metric_name}")
+            legend.append(f"{key_a} {metric_name}")
+        plt.legend(legend)
+    else:
+        ax1_legend = []
+        ax2_legend = []
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(21, 5))
+        for metric_name, dataset in metrics.items():
+            ax1.plot(dataset[key_a], linestyle='-', label=f"{metric_name}")
+            ax2.plot(dataset[key_a], linestyle='-', label=f"{metric_name}")
+            ax1_legend.append(f"{metric_name}")
+            ax2_legend.append(f"{metric_name}")
+        ax1.legend(ax1_legend)
+        ax1.title.set_text(key_a)
+        ax2.legend(ax2_legend)
+        ax2.title.set_text(key_b)

@@ -27,6 +27,32 @@ def simulate_episode(env, policy, steps, sleep_between_frames=0.3, print_info=Fa
         if terminated["__all__"]:
             break
 
+def simulate_episode_multipolicy(env, algo, steps, sleep_between_frames=0.3, print_info=False, print_action=False, print_reward=False, print_ob=False,):
+    obs, _ = env.reset()
+    env.render()
+    last_frame = time.time()
+    for i in range(steps):
+        if print_ob:
+            print(f"obs: ", obs)
+
+        actions = {}
+        for agent in obs.keys():
+            actions[agent] = algo.compute_single_action(obs[agent], policy_id=agent)
+        obs, reward, terminated, _, infos = env.step(actions)
+        time.sleep(max(0, sleep_between_frames - (time.time() - last_frame)))
+        last_frame = time.time()
+        env.render()
+        
+        if print_info:
+            print(f"info: ", infos)
+        if print_action: 
+            print(f"action: ", actions)
+        if print_reward:
+            print(f"reward: ", reward, "\n")
+
+        if terminated["__all__"]:
+            break
+
 def simulate_random_episode(env, steps, sleep_between_frames=0.3, print_info=True):
     obs, _ = env.reset()
     env.render()

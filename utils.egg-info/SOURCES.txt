@@ -4,6 +4,7 @@ DTDE/__init__.py
 utils/__init__.py
 utils/algo_utils.py
 utils/canvas.py
+utils/dictionary.py
 utils/metrics.py
 utils/simulations.py
 utils/vectors.py
