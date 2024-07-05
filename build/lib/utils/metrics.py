@@ -48,7 +48,7 @@ def compare_metrics(metrics, key_a, key_b=None):
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(21, 5))
         for metric_name, dataset in metrics.items():
             ax1.plot(dataset[key_a], linestyle='-', label=f"{metric_name}")
-            ax2.plot(dataset[key_a], linestyle='-', label=f"{metric_name}")
+            ax2.plot(dataset[key_b], linestyle='-', label=f"{metric_name}")
             ax1_legend.append(f"{metric_name}")
             ax2_legend.append(f"{metric_name}")
         ax1.legend(ax1_legend)
