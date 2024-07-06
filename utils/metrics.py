@@ -55,3 +55,17 @@ def compare_metrics(metrics, key_a, key_b=None):
         ax1.title.set_text(key_a)
         ax2.legend(ax2_legend)
         ax2.title.set_text(key_b)
+
+def compute_performance(env, algo, policy, n_episodes):
+    tot = 0.0
+    for seed in range(n_episodes):
+        i = 0
+        terminated = {"__all__": False}
+        while i < env.max_steps and not terminated['__all__']:
+            obs, _ = env.reset(seed=seed)
+            actions = algo.compute_actions(obs, policy_id=policy)
+            obs, rew, terminated, _, _ = env.step(actions)
+            tot += sum(rew.values())
+            i = i+1
+        tot += i
+    return tot/n_episodes
