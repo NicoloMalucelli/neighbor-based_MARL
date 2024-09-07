@@ -27,7 +27,7 @@ def compare_metrics(metric_a, metric_b, key_a, key_b=None):
         plt.plot(metric_b[key_a], linestyle='-', color='b', label=f"{key_a} algo B")
         plt.legend([f"{key_a} algo A", f"{key_a} algo B"])
     else:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(21, 5))
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(21, 8))
         ax1.plot(metric_a[key_a], linestyle='-', color='r', label=f"{key_a} algo A")
         ax1.plot(metric_b[key_a], linestyle='-', color='b', label=f"{key_a} algo B")
         ax1.legend([f"{key_a} algo A", f"{key_a} algo B"])

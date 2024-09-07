@@ -9,9 +9,8 @@ def simulate_episode(env, policy, steps, sleep_between_frames=0.3, print_info=Fa
     for i in range(steps):
         if print_ob:
             print(f"obs: ", obs)
-        actions = policy.compute_actions(obs)
-        #actions = {agent: np.array([rnd.random()*2-1, rnd.random()*2-1, 1.0], np.float32) for agent in obs.keys()}
-        #actions = {agent: env.action_space.sample() for agent in obs.keys()}
+        
+        actions = {agent: policy.compute_single_action(obs[agent]) for agent in obs.keys()} #policy.compute_actions(obs)
         obs, reward, terminated, _, infos = env.step(actions)
         time.sleep(max(0, sleep_between_frames - (time.time() - last_frame)))
         last_frame = time.time()
@@ -27,8 +26,11 @@ def simulate_episode(env, policy, steps, sleep_between_frames=0.3, print_info=Fa
         if terminated["__all__"]:
             break
 
-def simulate_episode_multipolicy(env, algo, steps, sleep_between_frames=0.3, print_info=False, print_action=False, print_reward=False, print_ob=False,):
-    obs, _ = env.reset()
+def simulate_episode_multipolicy(env, algo, steps, seed=None, sleep_between_frames=0.3, print_info=False, print_action=False, print_reward=False, print_ob=False):
+    if(seed == None):
+        obs, _ = env.reset()
+    else:   
+        obs, _ = env.reset(seed)
     env.render()
     last_frame = time.time()
     for i in range(steps):
@@ -70,15 +72,25 @@ def simulate_random_episode(env, steps, sleep_between_frames=0.3, print_info=Tru
             print(f"action: ", actions)
             print(f"reward: ", reward, "\n")
 
+def ppo_result_format_v2(result):
+    return (f"iteration [{result['training_iteration']}] => " +
+          f"episode_reward_mean: {result['env_runners']['episode_reward_mean']}, " +
+          f"episode_len_mean: {result['env_runners']['episode_len_mean']}, ")
+
+def sac_result_format_v2(result):
+    return (f"iteration [{result['training_iteration']}] => " +
+          f"episode_reward_mean: {result['env_runners']['episode_reward_mean']}, " +
+          f"episode_len_mean: {result['env_runners']['episode_len_mean']}")
+          
+def dqn_result_format_v2(result):
+    return (f"iteration [{result['training_iteration']}] => " +
+        f"episode_reward_mean: {result['env_runners']['episode_reward_mean']}, " +
+        f"episode_len_mean: {result['env_runners']['episode_len_mean']}")
+
 def ppo_result_format(result):
     return (f"iteration [{result['training_iteration']}] => " +
           f"episode_reward_mean: {result['sampler_results']['episode_reward_mean']}, " +
-          f"episode_len_mean: {result['sampler_results']['episode_len_mean']}, " +
-          f"agent_steps_trained: {result['info']['num_agent_steps_trained']}, " +
-          f"env_steps_trained: {result['info']['num_env_steps_trained']}, " + 
-          f"entropy: {result['info']['learner']['default_policy']['learner_stats']['entropy']}, " +
-          f"learning_rate: {result['info']['learner']['default_policy']['learner_stats']['cur_lr']}")
-
+          f"episode_len_mean: {result['sampler_results']['episode_len_mean']}, ")
 
 def sac_result_format(result):
     return (f"iteration [{result['training_iteration']}] => " +
